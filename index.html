@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="Car.js"></script>
+    <script src="Rectangle.js"></script>
+    <script src="Circle.js"></script>
+</head>
+<body>
+<canvas id="myCanvas" width="1200" height="600" style="border: 2px solid rebeccapurple"></canvas>
+</body>
+</html>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let ctx = canvas.getContext('2d');
+    const image = new Image();
+    image.onload = drawImage;
+    let car = new Car(image, 500, 200, 100, 100, 'image/tank_up.png')
+
+    let rect = new Rectangle(800,100,200,50,'green')
+    let circle = new Circle(300,100,50,'red')
+    // image.src = 'image/tank_up.png'
+    function drawImage() {
+        image.src = car.src;
+        car.drawImage(ctx)
+        rect.drawRect(ctx);
+        circle.drawCircle(ctx)
+    }
+
+    function moveCar() {
+        switch (event.keyCode) {
+            case 39:
+                car.moveRight()
+                break;
+            case 37:
+                car.moveLeft()
+                break;
+            case 38:
+                car.moveUp();
+                break;
+            case 40:
+                car.moveDown();
+                break
+        }
+        checkCollision();
+        clearCanvas();
+        drawImage();
+    }
+    function checkCollision() {
+        if(car.x+car.width>rect.x&&car.x<rect.x+rect.width&&car.y < rect.y + rect.height&&car.y+car.height>rect.y){
+            car.setSrc('image/explosion.png')
+            let audio = new Audio('audio/boom.mp3')
+            audio.play();
+        }
+        if(car.x+car.width > circle.x - circle.radius && car.x < circle.x + circle.radius&&car.y < circle.y+circle.radius && car.y + car.height > circle.y - circle.radius){
+            alert('CO VA CHAM')
+            car.setSrc('image/explosion.png')
+            let audio = new Audio('audio/boom.mp3')
+            audio.play();
+        }
+    }
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    drawImage();
+
+    addEventListener('keydown', moveCar)
+</script>

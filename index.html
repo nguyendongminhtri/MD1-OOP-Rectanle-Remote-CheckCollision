@@ -31,15 +31,19 @@
     function moveCar() {
         switch (event.keyCode) {
             case 39:
+                car.setSrc('image/tank_right.png')
                 car.moveRight()
                 break;
             case 37:
+                car.setSrc('image/tank_left.png')
                 car.moveLeft()
                 break;
             case 38:
+                car.setSrc('image/tank_up.png')
                 car.moveUp();
                 break;
             case 40:
+                car.setSrc('image/tank_down.png')
                 car.moveDown();
                 break
         }
